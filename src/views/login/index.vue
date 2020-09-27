@@ -13,7 +13,7 @@
         <el-input class="form_input" type="password" placeholder="密码" v-model="ruleForm.password"></el-input>
       </el-form-item>
       <el-form-item class="form_item">
-        <el-button class="login_btn" type="primary" @click="doLogin">登录</el-button>
+        <el-button class="login_btn" type="primary" @click="handleLogin">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -37,18 +37,22 @@ export default {
     };
   },
   created() {
-    document.onkeyup = e => {
-      e = window.event || e;
-      if (
-        this.$route.path == "/login" &&
-        (e.code == "enter" || e.code == "Enter")
-      ) {
-        this.doLogin();
-      }
-    };
+    this.setEnterEvent();
+  },
+  destroyed() {
+    document.onkeyup = null;
   },
   methods: {
-    doLogin() {
+    // 设置回车登录事件
+    setEnterEvent() {
+      document.onkeyup = e => {
+        e = window.event || e;
+        if (e.code == "enter" || e.code == "Enter") {
+          this.handleLogin();
+        }
+      };
+    },
+    handleLogin() {
       this.$refs.form.validate(async valid => {
         if (valid) {
           try {

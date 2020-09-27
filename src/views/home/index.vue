@@ -1,10 +1,15 @@
 <template>
   <el-container class="home-container">
     <el-header class="home-header">
-      <div class="logo">
-        <img src="../../assets/images/logo.png" alt />
+      <div class="logo" :class="{showSlide: isCollapse,hideSlide: !isCollapse}">
+        <a href="http://www.szbjh.com/index.aspx">
+          <img src="../../assets/images/logo.png" alt="logo" />
+        </a>
       </div>
-      <div class="headerbar-right">
+      <div class="header_center">
+        <i :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'" @click="changeCollapse"></i>
+      </div>
+      <div class="header_right">
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
             欢迎您！ {{ $store.state.userInfo.name }}
@@ -21,14 +26,18 @@
 
     <el-container>
       <!-- 左侧导航菜单 -->
-      <el-aside class="my-aside" width="200px">
+      <el-aside
+        width="200px"
+        class="my-aside"
+        :class="{asideShowSlide: isCollapse,asideHideSlide: !isCollapse}"
+      >
         <el-menu
           router
           unique-opened
           style="width:100%"
           :default-active="$route.path"
-          @select="handleSelect"
           class="el-menu-vertical-demo"
+          :class="{asidePadding: isCollapse}"
           background-color="#fff"
           text-color="#9a9a9a"
           active-text-color="#575962"
@@ -51,6 +60,11 @@
           <el-menu-item index="/targetlibrarymanage" v-if="$store.state.userInfo.level > 2">
             <i class="el-icon-folder-opened"></i>
             <span slot="title">指标库管理</span>
+          </el-menu-item>
+
+          <el-menu-item index="/usermanagement" v-if="$store.state.userInfo.level > 2">
+            <i class="el-icon-user"></i>
+            <span slot="title">用户管理</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -103,14 +117,16 @@ export default {
           { required: true, message: "请输入新密码", trigger: "blur" },
           { min: 3, max: 18, message: "长度在 3 到 18 个字符", trigger: "blur" }
         ]
-      }
+      },
+
+      isCollapse: false
     };
   },
   methods: {
-    handleSelect(index, indexPath) {
-      // console.log(index, indexPath);
-      this.levelList = indexPath;
+    changeCollapse() {
+      this.isCollapse = !this.isCollapse;
     },
+
     // 顶部下拉菜单下拉项的点击事件
     handleCommand(cmd) {
       // console.log(cmd);
@@ -158,17 +174,50 @@ export default {
 .home-container {
   height: 100%;
 
+  // logo的收缩展开动画
+  .showSlide {
+    animation: slideInLeft 0.5s forwards;
+  }
+
+  .hideSlide {
+    animation: slideOutLeft 0.5s forwards;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      width: 200px;
+      margin-left: 0;
+    }
+    to {
+      width: 30px;
+      margin-left: 10px;
+    }
+  }
+
+  @keyframes slideOutLeft {
+    from {
+      width: 30px;
+      margin-left: 10px;
+    }
+    to {
+      width: 200px;
+      margin-left: 0;
+    }
+  }
+
   .home-header {
     background-color: #716aca;
     color: #fff;
     height: 80px;
-    padding: 0 20px;
+    padding: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .logo {
-      margin-left: 20px;
+      width: 200px;
+      text-align: center;
+      overflow: hidden;
 
       img {
         max-width: 100px;
@@ -178,16 +227,28 @@ export default {
       }
     }
 
-    .el-dropdown {
-      color: #fff;
-      cursor: pointer;
+    .header_center {
+      flex: 1;
+
+      i {
+        font-size: 20px;
+        line-height: 80px;
+        padding: 0 15px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #7160ca;
+        }
+      }
     }
 
-    .icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      vertical-align: middle;
+    .header_right {
+      margin-right: 20px;
+
+      .el-dropdown {
+        color: #fff;
+        cursor: pointer;
+      }
     }
   }
 
@@ -215,6 +276,42 @@ export default {
     }
     .el-menu-item.is-active i {
       color: #4d7cfe;
+    }
+
+    // aside收缩时改变导航项padding
+    .el-menu.asidePadding .el-menu-item {
+      padding-left: 8px !important;
+      padding-right: 10px !important;
+    }
+    .el-menu.asidePadding .el-menu-item [class^="el-icon-"] {
+      margin-right: 8px;
+    }
+  }
+
+  // 导航栏的收缩展开动画
+  .asideShowSlide {
+    animation: asideSlideInLeft 0.5s forwards;
+  }
+
+  .asideHideSlide {
+    animation: asideSlideOutLeft 0.5s forwards;
+  }
+
+  @keyframes asideSlideInLeft {
+    from {
+      width: 200px;
+    }
+    to {
+      width: 40px;
+    }
+  }
+
+  @keyframes asideSlideOutLeft {
+    from {
+      width: 40px;
+    }
+    to {
+      width: 200px;
     }
   }
 

@@ -48,46 +48,8 @@ const apiGetTokenUser = (token) => {
   })
 }
 
-// 查询用户列表
-const apiGetUserList = (name) => {
-  return new Promise((resolve, reject) => {
-    axios.post(Url.GetUserList, {
-        name
-      })
-      .then(res => {
-        resolve(res)
-      })
-      .catch(error => {
-        reject(error)
-      });
-  })
-}
-
-// 修改密码
-const apiChangePassword = ({
-  accounts,
-  oldPassword,
-  password
-}) => {
-  return new Promise((resolve, reject) => {
-    axios.post(Url.ChangePassword, {
-        accounts,
-        oldPassword,
-        password
-      })
-      .then(res => {
-        resolve(res)
-      })
-      .catch(error => {
-        reject(error)
-      });
-  })
-}
-
 export {
   apiUserLogin,
   apiUserSso,
   apiGetTokenUser,
-  apiGetUserList,
-  apiChangePassword
 }
