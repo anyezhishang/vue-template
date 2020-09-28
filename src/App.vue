@@ -5,7 +5,7 @@
 </template>
 
 <style lang="scss">
-@import url('./assets/fonts/iconfont.css');
+@import url("./assets/fonts/iconfont.css");
 
 #app {
   height: 100%;

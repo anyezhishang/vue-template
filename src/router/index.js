@@ -1,18 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import Login from '../views/login/'
 import Home from '../views/home/'
 import NotFound from '../views/not-found/'
-import TargetLibraryManage from '../views/home/target-library-manage/'
-import EvaluationForm from '../views/home/evaluation-form/'
-import EventRecord from '../views/home/event-record/'
-import EvaluationSummaryForm from '../views/home/evaluation-summary-form/'
 
-import store from '../store/'
-import {
-  getQueryValue
-} from '../utils/common'
-import Url from '../utils/url.js'
+import FirstPage from '../views/home/first-page/'
+import SecondPage from '../views/home/second-page/'
+import ThirdPage from '../views/home/third-page/'
+import FourthPage from '../views/home/fourth-page/'
+
+// import store from '../store/'
+// import {
+//   getQueryValue
+// } from '../utils/common'
+// import Url from '../utils/url.js'
 
 Vue.use(VueRouter)
 
@@ -42,38 +44,38 @@ const routes = [{
     component: Home,
     children: [{
         path: '/home',
-        redirect: '/eventrecord'
+        redirect: '/firstPage'
       },
       {
-        path: '/targetlibrarymanage',
-        name: 'TargetLibraryManage',
-        component: TargetLibraryManage,
+        path: '/firstpage',
+        name: 'FirstPage',
+        component: FirstPage,
         meta: {
-          title: "指标库管理"
+          title: "第一个页面"
         }
       },
       {
-        path: '/evaluationform',
-        name: 'EvaluationForm',
-        component: EvaluationForm,
+        path: '/secondpage',
+        name: 'SecondPage',
+        component: SecondPage,
         meta: {
-          title: "考核表"
+          title: "第二个页面"
         }
       },
       {
-        path: '/eventrecord',
-        name: 'EventRecord',
-        component: EventRecord,
+        path: '/thirdpage',
+        name: 'ThirdPage',
+        component: ThirdPage,
         meta: {
-          title: "事件登记"
+          title: "第三个页面"
         }
       },
       {
-        path: '/evaluationsummaryform',
-        name: 'EvaluationSummaryForm',
-        component: EvaluationSummaryForm,
+        path: '/fourthpage',
+        name: 'FourthPage',
+        component: FourthPage,
         meta: {
-          title: "考核汇总表"
+          title: "第四个页面"
         }
       },
     ]
@@ -94,39 +96,39 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.path === '/login') {
     next();
+    // } else {
+    //   // 单点登录
+    //   let token = getQueryValue('token')
+    //   if (token) {
+    //     let res = await Vue.prototype.$axios2({
+    //       url: Url.GetTokenUser,
+    //       method: 'GET',
+    //       headers: {
+    //         Authorization: token
+    //       },
+    //       params: {
+    //         token
+    //       }
+    //     })
+    //     // console.log(res);
+    //     if (res.data.errorCode === 0 && res.data.data != null) {
+    //       store.commit("changeUserInfo", res.data.data);
+    //       window.sessionStorage.setItem("fpmtoken", token)
+    //     }
+
+    //     // 修改url不刷新页面
+    //     let clearParamsUrl = window.location.href.split('?')[0];
+    //     window.history.replaceState({}, '', clearParamsUrl)
+
+    //     next('/home')
+
+  } else if (window.sessionStorage.getItem('userInfo')) {
+    next()
   } else {
-    // 单点登录
-    let token = getQueryValue('token')
-    if (token) {
-      let res = await Vue.prototype.$axios2({
-        url: Url.GetTokenUser,
-        method: 'GET',
-        headers: {
-          Authorization: token
-        },
-        params: {
-          token
-        }
-      })
-      // console.log(res);
-      if (res.data.errorCode === 0 && res.data.data != null) {
-        store.commit("changeUserInfo", res.data.data);
-        window.sessionStorage.setItem("fpmtoken", token)
-      }
-
-      // 修改url不刷新页面
-      let clearParamsUrl = window.location.href.split('?')[0];
-      window.history.replaceState({}, '', clearParamsUrl)
-
-      next('/home')
-
-    } else if (window.sessionStorage.getItem('userInfo')) {
-      next()
-    } else {
-      Vue.prototype.$message.error("请先登录！")
-      next("/login")
-    }
+    Vue.prototype.$message.error("请先登录！")
+    next("/login")
   }
+  // }
 
 })
 

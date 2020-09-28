@@ -1,10 +1,8 @@
 <template>
-  <el-container class="home-container">
-    <el-header class="home-header">
+  <el-container class="home_container">
+    <el-header class="home_header">
       <div class="logo" :class="{showSlide: isCollapse,hideSlide: !isCollapse}">
-        <a href="http://www.szbjh.com/index.aspx">
-          <img src="../../assets/images/logo.png" alt="logo" />
-        </a>
+        <img src="../../assets/images/logo.png" alt="logo" />
       </div>
       <div class="header_center">
         <i :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'" @click="changeCollapse"></i>
@@ -17,7 +15,6 @@
           </span>
 
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="updatePassword">修改密码</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -28,7 +25,7 @@
       <!-- 左侧导航菜单 -->
       <el-aside
         width="200px"
-        class="my-aside"
+        class="my_aside"
         :class="{asideShowSlide: isCollapse,asideHideSlide: !isCollapse}"
       >
         <el-menu
@@ -42,29 +39,24 @@
           text-color="#9a9a9a"
           active-text-color="#575962"
         >
-          <el-menu-item index="/eventrecord">
+          <el-menu-item :index="$router.options.routes[3].children[1].path">
             <i class="el-icon-edit-outline"></i>
-            <span slot="title">事件记录</span>
+            <span slot="title">{{ $router.options.routes[3].children[1].meta.title }}</span>
           </el-menu-item>
 
-          <el-menu-item index="/evaluationform">
+          <el-menu-item :index="$router.options.routes[3].children[2].path">
             <i class="el-icon-document"></i>
-            <span slot="title">考核表</span>
+            <span slot="title">{{ $router.options.routes[3].children[2].meta.title }}</span>
           </el-menu-item>
 
-          <el-menu-item index="/evaluationsummaryform">
+          <el-menu-item :index="$router.options.routes[3].children[3].path">
             <i class="el-icon-document-checked"></i>
-            <span slot="title">考核汇总表</span>
+            <span slot="title">{{ $router.options.routes[3].children[3].meta.title }}</span>
           </el-menu-item>
 
-          <el-menu-item index="/targetlibrarymanage" v-if="$store.state.userInfo.level > 2">
+          <el-menu-item :index="$router.options.routes[3].children[4].path">
             <i class="el-icon-folder-opened"></i>
-            <span slot="title">指标库管理</span>
-          </el-menu-item>
-
-          <el-menu-item index="/usermanagement" v-if="$store.state.userInfo.level > 2">
-            <i class="el-icon-user"></i>
-            <span slot="title">用户管理</span>
+            <span slot="title">{{ $router.options.routes[3].children[4].meta.title }}</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -77,46 +69,18 @@
         </el-main>
       </el-container>
     </el-container>
-
-    <el-dialog title="修改密码" :visible.sync="updateDialogVisible" width="30%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="旧密码" prop="oldPassword">
-          <el-input type="password" v-model="form.oldPassword" placeholder="请输入旧密码"></el-input>
-        </el-form-item>
-        <el-form-item label="新密码" prop="password">
-          <el-input type="password" v-model="form.password" placeholder="请输入新密码"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="updateDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="changePassword">确 定</el-button>
-      </span>
-    </el-dialog>
   </el-container>
 </template>
 
 <script>
-import { apiChangePassword } from "../../api/user";
-
 export default {
   name: "Home",
   data() {
     return {
-      updateDialogVisible: false,
       form: {
         accounts: this.$store.state.userInfo.accounts,
         oldPassword: "",
         password: ""
-      },
-      rules: {
-        oldPassword: [
-          { required: true, message: "请输入旧密码", trigger: "blur" },
-          { min: 3, max: 18, message: "长度在 3 到 18 个字符", trigger: "blur" }
-        ],
-        password: [
-          { required: true, message: "请输入新密码", trigger: "blur" },
-          { min: 3, max: 18, message: "长度在 3 到 18 个字符", trigger: "blur" }
-        ]
       },
 
       isCollapse: false
@@ -130,48 +94,19 @@ export default {
     // 顶部下拉菜单下拉项的点击事件
     handleCommand(cmd) {
       // console.log(cmd);
-      if (cmd == "updatePassword") {
-        this.updateDialogVisible = true;
-      } else if (cmd == "logout") {
+      if (cmd == "logout") {
         // 删除登录后的信息
         window.sessionStorage.removeItem("userInfo");
         window.sessionStorage.removeItem("fpmtoken");
         this.$router.push("/login");
       }
-    },
-    changePassword() {
-      this.$refs["form"].validate(async valid => {
-        if (valid) {
-          this.$confirm(`确定修改吗？`, "提示", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          })
-            .then(async () => {
-              try {
-                let res = await apiChangePassword(this.form);
-                if (res.data.errorCode === 0) {
-                  this.$message.success("密码修改成功, 请重新登录！");
-                  this.updateDialogVisible = false;
-                  this.$router.push("/otherlogin");
-                } else {
-                  this.$message.error(res.data.errorMessage);
-                }
-              } catch (error) {
-                console.log(error);
-                this.$message.success("密码修改失败");
-              }
-            })
-            .catch(() => {});
-        }
-      });
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.home-container {
+.home_container {
   height: 100%;
 
   // logo的收缩展开动画
@@ -205,7 +140,7 @@ export default {
     }
   }
 
-  .home-header {
+  .home_header {
     background-color: #716aca;
     color: #fff;
     height: 80px;
@@ -252,7 +187,7 @@ export default {
     }
   }
 
-  .my-aside {
+  .my_aside {
     overflow: hidden;
     background-color: #fff;
 
@@ -313,17 +248,6 @@ export default {
     to {
       width: 200px;
     }
-  }
-
-  .my-main {
-    background-color: #fff;
-    padding: 0;
-  }
-
-  .right_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 
   .right_main {

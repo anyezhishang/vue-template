@@ -1,13 +1,14 @@
 <template>
-  <div>页面1</div>
+  <div>页面2</div>
 </template>
 
 <script>
 export default {
-  name: "Name",
+  name: "SecondPage",
   data() {
     return {};
   },
+  created() {},
   methods: {}
 };
 </script>
