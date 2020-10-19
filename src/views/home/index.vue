@@ -26,7 +26,7 @@
       <el-aside
         width="200px"
         class="my_aside"
-        :class="{asideShowSlide: isCollapse,asideHideSlide: !isCollapse}"
+        :class="{ asideShowSlide: isCollapse,asideHideSlide: !isCollapse }"
       >
         <el-menu
           router
@@ -36,8 +36,8 @@
           class="el-menu-vertical-demo"
           :class="{asidePadding: isCollapse}"
           background-color="#fff"
-          text-color="#9a9a9a"
-          active-text-color="#575962"
+          :text-color="colorIconIsActive"
+          :active-text-color="bgColorHeader"
         >
           <el-menu-item :index="$router.options.routes[3].children[1].path">
             <i class="el-icon-edit-outline"></i>
@@ -73,6 +73,11 @@
 </template>
 
 <script>
+import {
+  bgColorHeader,
+  colorIconIsActive
+} from "../../assets/sass/variable.scss";
+
 export default {
   name: "Home",
   data() {
@@ -83,7 +88,10 @@ export default {
         password: ""
       },
 
-      isCollapse: false
+      isCollapse: false,
+
+      bgColorHeader,
+      colorIconIsActive
     };
   },
   methods: {
@@ -141,7 +149,7 @@ export default {
   }
 
   .home_header {
-    background-color: #716aca;
+    background-color: $bg-color-header;
     color: #fff;
     height: 80px;
     padding: 0;
@@ -172,7 +180,7 @@ export default {
         cursor: pointer;
 
         &:hover {
-          background-color: #7160ca;
+          background-color: $color-collapse-hover;
         }
       }
     }
@@ -198,7 +206,8 @@ export default {
       margin: 5px 0;
     }
     .el-menu-item i {
-      color: #9a9a9a;
+      // sass全局变量
+      color: $color-icon-isactive;
     }
     .el-menu-item:hover {
       background: rgba(0, 0, 0, 0.03) !important;
@@ -210,7 +219,7 @@ export default {
       background: rgba(0, 0, 0, 0.05) !important;
     }
     .el-menu-item.is-active i {
-      color: #4d7cfe;
+      color: $bg-color-header;
     }
 
     // aside收缩时改变导航项padding
@@ -270,6 +279,7 @@ export default {
 }
 
 .el-submenu__title i {
-  color: #9a9a9a !important;
+  // sass全局变量
+  color: $color-icon-isactive !important;
 }
 </style>

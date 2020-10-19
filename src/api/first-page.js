@@ -17,8 +17,7 @@ const apiGet = ({
   param1,
   param2
 }) => {
-  return
-  axios.get(Url.Get, {
+  return axios.get(Url.Get, {
     params: {
       param1,
       param2

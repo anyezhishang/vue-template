@@ -48,5 +48,16 @@ module.exports = {
         }
       }
     }
+  },
+
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `@import "~@/assets/sass/variable.scss"`
+      },
+      scss: {
+        prependData: `@import "~@/assets/sass/variable.scss";`
+      },
+    }
   }
 }

@@ -1,0 +1,14 @@
+// 页面头部背景、导航栏图标和选中后的文字颜色
+$bg-color-header: #716aca;
+
+// 导航栏图标和文字未选中前的颜色
+$color-icon-isactive: #606266;
+
+// 收缩展开图标hover颜色
+$color-collapse-hover: #7160ca;
+
+// 导出为js变量
+:export {
+    bgColorHeader: $bg-color-header;
+    colorIconIsActive: $color-icon-isactive;
+}

@@ -44,7 +44,7 @@ const routes = [{
     component: Home,
     children: [{
         path: '/home',
-        redirect: '/firstPage'
+        redirect: '/firstpage'
       },
       {
         path: '/firstpage',
