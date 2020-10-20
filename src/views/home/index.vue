@@ -34,7 +34,7 @@
           style="width:100%"
           :default-active="$route.path"
           class="el-menu-vertical-demo"
-          :class="{asidePadding: isCollapse}"
+          :class="{ asidePadding: isCollapse }"
           background-color="#fff"
           :text-color="colorIconIsActive"
           :active-text-color="bgColorHeader"
@@ -105,7 +105,7 @@ export default {
       if (cmd == "logout") {
         // 删除登录后的信息
         window.sessionStorage.removeItem("userInfo");
-        window.sessionStorage.removeItem("fpmtoken");
+        window.sessionStorage.removeItem("token");
         this.$router.push("/login");
       }
     }

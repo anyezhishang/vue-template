@@ -17,6 +17,7 @@ import axios from 'axios';
 
 
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/test' : ''
 Vue.prototype.$axios = axios;
 
 // 再次创建一个 axios 实例，用于单点登录
@@ -27,7 +28,7 @@ Vue.prototype.$axios2 = axios2;
 axios.interceptors.request.use(async function (config) {
     // NProgress.start()
     // 如果是第一次访问来做登录，也会被拦下来
-    config.headers.Authorization = window.sessionStorage.getItem('fpmtoken');
+    config.headers.Authorization = window.sessionStorage.getItem('token');
     // 在发送请求之前做些什么
     return config;
   },

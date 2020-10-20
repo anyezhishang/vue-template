@@ -27,8 +27,8 @@ export default {
   data() {
     return {
       ruleForm: {
-        accounts: "5000037",
-        password: "123"
+        accounts: process.env.NODE_ENV !== "production" ? "5000037" : "",
+        password: process.env.NODE_ENV !== "production" ? "123" : ""
       },
       rules: {
         accounts: [{ required: true, message: "请输入帐号", trigger: "blur" }],
@@ -61,7 +61,7 @@ export default {
             if (res.data.errorCode === 0) {
               // window.sessionStorage.setItem("userName", this.ruleForm.accounts);
               this.$store.commit("changeUserInfo", res.data.data.userInfo);
-              window.sessionStorage.setItem("fpmtoken", res.data.data.token);
+              window.sessionStorage.setItem("token", res.data.data.token);
               this.$message.success("登录成功");
 
               // 跳转到首页

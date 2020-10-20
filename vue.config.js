@@ -1,15 +1,15 @@
-// page title
 const path = require('path')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
+// page title
 const name = 'Vue Template'
 
 module.exports = {
   publicPath: "/fpm/",
-  outputDir: 'dist', //build输出目录
+  outputDir: process.env.outputDir, //build输出目录
   assetsDir: 'assets', //静态资源目录（js, css, img）
   productionSourceMap: false,
   lintOnSave: true, //是否开启eslint
@@ -34,14 +34,14 @@ module.exports = {
     },
     proxy: {
       '/test': {
-        target: 'https://cloudtest.szbjh.com:20443', //API服务器的地址
+        target: process.env.VUE_APP_BASEURL, //API服务器的地址
         changeOrigin: true,
         pathRewrite: {
           '^/test': ''
         }
       },
       '/product': {
-        target: 'https://cloud.szbjh.com', //API服务器的地址
+        target: process.env.VUE_APP_BASEURL, //API服务器的地址
         changeOrigin: true,
         pathRewrite: {
           '^/product': ''
