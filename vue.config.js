@@ -8,7 +8,7 @@ function resolve(dir) {
 const name = 'Vue Template'
 
 module.exports = {
-  publicPath: "/fpm/",
+  publicPath: "/template/",
   outputDir: process.env.outputDir, //build输出目录
   assetsDir: 'assets', //静态资源目录（js, css, img）
   productionSourceMap: false,
