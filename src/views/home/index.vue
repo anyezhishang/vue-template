@@ -151,7 +151,6 @@ export default {
   .home_header {
     background-color: $bg-color-header;
     color: #fff;
-    height: 80px;
     padding: 0;
     display: flex;
     justify-content: space-between;
@@ -175,7 +174,7 @@ export default {
 
       i {
         font-size: 20px;
-        line-height: 80px;
+        line-height: 60px;
         padding: 0 15px;
         cursor: pointer;
 

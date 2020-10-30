@@ -47,7 +47,7 @@ export default {
     setEnterEvent() {
       document.onkeyup = e => {
         e = window.event || e;
-        if (e.code == "enter" || e.code == "Enter") {
+        if (e.keyCode == 13 || e.key == "Enter") {
           this.handleLogin();
         }
       };
