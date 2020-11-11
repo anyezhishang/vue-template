@@ -2,7 +2,7 @@ import axios from 'axios'
 import Url from '../utils/url';
 
 // 封装请求方法1
-const apiPost = ({
+let apiPost = ({
   param1,
   param2
 }) => {
@@ -13,7 +13,7 @@ const apiPost = ({
 }
 
 // 封装请求方法2
-const apiGet = ({
+let apiGet = ({
   param1,
   param2
 }) => {

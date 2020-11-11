@@ -4,7 +4,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-// page title
+// 网页标题
 const name = 'Vue Template'
 
 module.exports = {
@@ -25,8 +25,8 @@ module.exports = {
   devServer: {
     host: "localhost",
     port: '8080',
-    open: true,
     https: false, //是否使用https协议
+    open: true,
     hotOnly: true, //是否开启热更新
     overlay: {
       warnings: false,
@@ -50,6 +50,7 @@ module.exports = {
     }
   },
 
+  // sass全局变量
   css: {
     loaderOptions: {
       sass: {
