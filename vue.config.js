@@ -9,10 +9,10 @@ const name = 'Vue Template'
 
 module.exports = {
   publicPath: "/template/",
-  outputDir: process.env.outputDir, //build输出目录
-  assetsDir: 'assets', //静态资源目录（js, css, img）
+  outputDir: process.env.outputDir, // build输出目录
+  assetsDir: 'assets', // 静态资源目录（js, css, img）
   productionSourceMap: false,
-  lintOnSave: true, //是否开启eslint
+  lintOnSave: true, // 是否开启eslint
   configureWebpack: {
     name: name,
     resolve: {
@@ -25,23 +25,23 @@ module.exports = {
   devServer: {
     host: "localhost",
     port: '8080',
-    https: false, //是否使用https协议
-    open: true,
-    hotOnly: true, //是否开启热更新
+    https: false, // 是否使用https协议
+    open: true, // 是否自动弹出浏览器页面
+    hotOnly: true, // 是否开启热更新
     overlay: {
       warnings: false,
       errors: true
     },
     proxy: {
       '/test': {
-        target: process.env.VUE_APP_BASEURL, //API服务器的地址
+        target: process.env.VUE_APP_BASEURL, // API服务器的地址
         changeOrigin: true,
         pathRewrite: {
           '^/test': ''
         }
       },
       '/product': {
-        target: process.env.VUE_APP_BASEURL, //API服务器的地址
+        target: process.env.VUE_APP_BASEURL, // API服务器的地址
         changeOrigin: true,
         pathRewrite: {
           '^/product': ''

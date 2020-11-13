@@ -24,20 +24,21 @@
     <el-container>
       <!-- 左侧导航菜单 -->
       <el-aside
-        width="200px"
         class="my_aside"
         :class="{ asideShowSlide: isCollapse,asideHideSlide: !isCollapse }"
+        width="200px"
       >
         <el-menu
-          router
-          unique-opened
-          style="width:100%"
-          :default-active="$route.path"
           class="el-menu-vertical-demo"
           :class="{ asidePadding: isCollapse }"
-          background-color="#fff"
+          router
+          unique-opened
+          :default-active="$route.path"
+          :default-openeds="defaultOpenedsArray"
           :text-color="colorIconIsActive"
           :active-text-color="bgColorHeader"
+          background-color="#fff"
+          style="width:100%"
         >
           <el-menu-item :index="$router.options.routes[3].children[1].path">
             <i class="el-icon-edit-outline"></i>
@@ -88,6 +89,7 @@ export default {
         password: ""
       },
 
+      defaultOpenedsArray: [],
       isCollapse: false,
 
       bgColorHeader,
@@ -97,6 +99,8 @@ export default {
   methods: {
     changeCollapse() {
       this.isCollapse = !this.isCollapse;
+      // 控制收起所有子菜单
+      this.defaultOpenedsArray = [];
     },
 
     // 顶部下拉菜单下拉项的点击事件
@@ -221,13 +225,25 @@ export default {
       color: $bg-color-header;
     }
 
-    // aside收缩时改变导航项padding
+    // aside收缩时改变无子菜单的导航项padding
     .el-menu.asidePadding .el-menu-item {
       padding-left: 8px !important;
       padding-right: 10px !important;
     }
     .el-menu.asidePadding .el-menu-item [class^="el-icon-"] {
       margin-right: 8px;
+    }
+
+    // aside收缩时改变有子菜单的导航项padding
+    ::v-deep .el-menu.asidePadding .el-submenu .el-submenu__title {
+      padding-left: 8px !important;
+      padding-right: 10px !important;
+    }
+    ::v-deep .el-menu.asidePadding .el-submenu [class^="el-icon-"] {
+      margin-right: 8px;
+    }
+    ::v-deep .el-menu.asidePadding .el-submenu .el-submenu__icon-arrow {
+      right: inherit;
     }
   }
 
