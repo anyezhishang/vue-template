@@ -8,7 +8,7 @@
         <i :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'" @click="changeCollapse"></i>
       </div>
       <div class="header_right">
-        <el-dropdown trigger="click" @command="handleCommand">
+        <el-dropdown trigger="click" placement="bottom" @command="handleCommand">
           <span class="el-dropdown-link">
             欢迎您！ {{ $store.state.userInfo.name }}
             <i class="el-icon-arrow-down el-icon--right"></i>

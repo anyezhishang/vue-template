@@ -1,5 +1,7 @@
 const path = require('path')
 
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -20,10 +22,19 @@ module.exports = {
         '@': resolve('src')
       }
     },
-    devtool: 'source-map'
+    devtool: 'source-map',
+
+    // 拷贝文件到生成的目录下
+    // plugins: [
+    //   new CopyWebpackPlugin({
+    //     patterns: [{
+    //       from: resolve('src/assets/version.json'),
+    //       to: resolve(`${process.env.outputDir}/assets/version.json`)
+    //     }]
+    //   })
+    // ]
   },
   devServer: {
-    host: "localhost",
     port: '8080',
     https: false, // 是否使用https协议
     open: true, // 是否自动弹出浏览器页面
