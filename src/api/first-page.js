@@ -13,19 +13,21 @@ const apiPost = ({
 }
 
 // 封装请求方法2
-const apiGet = ({
-  param1,
-  param2
+const apiGetArticleList = ({
+  name,
+  beginDate,
+  endDate
 }) => {
-  return axios.get(Url.Get, {
+  return axios.get('/article/list', {
     params: {
-      param1,
-      param2
+      name,
+      beginDate,
+      endDate
     }
   })
 }
 
 export {
+  apiGetArticleList,
   apiPost,
-  apiGet,
 }

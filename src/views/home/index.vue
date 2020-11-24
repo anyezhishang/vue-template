@@ -10,7 +10,7 @@
       <div class="header_right">
         <el-dropdown trigger="click" placement="bottom" @command="handleCommand">
           <span class="el-dropdown-link">
-            欢迎您！ {{ $store.state.userInfo.name }}
+            欢迎您！ {{ $store.state.userInfo[0].name }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
 

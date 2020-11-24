@@ -8,10 +8,15 @@ import './assets/base.css'
 
 import store from './store/'
 
-import ElementUI from 'element-ui';
-import '../theme/index.css';
+import ElementUI from 'element-ui'
+import '../theme/index.css'
 
-Vue.use(ElementUI);
+// require('../mock/')
+
+import '../mock/index'
+
+
+Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 

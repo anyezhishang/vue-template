@@ -4,9 +4,9 @@
       <el-form-item class="form_item">
         <div class="login_form_welcome">您好！欢迎来到百佳华管理平台</div>
       </el-form-item>
-      <el-form-item class="form_item" prop="accounts">
+      <el-form-item class="form_item" prop="account">
         <i class="iconfont icon-yonghu"></i>
-        <el-input class="form_input" placeholder="帐号" v-model="ruleForm.accounts"></el-input>
+        <el-input class="form_input" placeholder="帐号" v-model="ruleForm.account"></el-input>
       </el-form-item>
       <el-form-item class="form_item" prop="password">
         <i class="iconfont icon-mima"></i>
@@ -27,11 +27,11 @@ export default {
   data() {
     return {
       ruleForm: {
-        accounts: process.env.VUE_APP_FLAG !== "production" ? "5000037" : "",
+        account: process.env.VUE_APP_FLAG !== "production" ? "5000037" : "",
         password: process.env.VUE_APP_FLAG !== "production" ? "123" : ""
       },
       rules: {
-        accounts: [{ required: true, message: "请输入帐号", trigger: "blur" }],
+        account: [{ required: true, message: "请输入帐号", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
     };
@@ -57,9 +57,8 @@ export default {
         if (valid) {
           try {
             let res = await apiUserLogin(this.ruleForm);
-            // console.log(res);
+            console.log(res);
             if (res.data.errorCode === 0) {
-              // window.sessionStorage.setItem("userName", this.ruleForm.accounts);
               this.$store.commit("changeUserInfo", res.data.data.userInfo);
               window.sessionStorage.setItem("token", res.data.data.token);
               this.$message.success("登录成功");
@@ -74,6 +73,7 @@ export default {
               this.$message.error("帐号或密码错误");
             }
           } catch (error) {
+            console.log(error);
             //提示用户名或密码错误
             this.$message.error("帐号或密码错误");
           }

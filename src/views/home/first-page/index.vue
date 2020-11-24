@@ -25,7 +25,7 @@
           style="width: 300px"
         ></el-date-picker>
       </div>
-      <el-button type="primary" @click="search(1)">查询</el-button>
+      <el-button type="primary" @click="getArticleList()">查询</el-button>
     </div>
 
     <el-table class="card_table" border :data="tableData">
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { apiGetArticleList } from "@/api/first-page";
+
 export default {
   name: "FirstPage",
   data() {
@@ -54,36 +56,29 @@ export default {
       input: "",
       dateArr: [],
 
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
+      tableData: [],
 
       currentPage: 1,
       pageSize: 10,
       total: 0
     };
   },
-  created() {},
+  created() {
+    this.getArticleList();
+  },
   methods: {
+    async getArticleList() {
+      let res = await apiGetArticleList({
+        name: this.input,
+        beginDate: this.dateArr[0],
+        endDate: this.dateArr[1]
+      });
+      console.log(res);
+
+      if (res.data.errorCode === 0) {
+        this.tableData = res.data.data;
+      }
+    },
     pageChange() {},
 
     search() {}
