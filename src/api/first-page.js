@@ -16,13 +16,17 @@ const apiPost = ({
 const apiGetArticleList = ({
   name,
   beginDate,
-  endDate
+  endDate,
+  pageNum,
+  pageSize
 }) => {
   return axios.get('/article/list', {
     params: {
       name,
       beginDate,
-      endDate
+      endDate,
+      pageNum,
+      pageSize
     }
   })
 }

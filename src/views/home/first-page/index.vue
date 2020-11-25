@@ -8,7 +8,7 @@
           v-model="input"
           placeholder="姓名"
           clearable
-          @keyup.enter.native="search(1)"
+          @keyup.enter.native="getArticleList()"
           style="width: 150px"
         ></el-input>
       </div>
@@ -64,24 +64,35 @@ export default {
     };
   },
   created() {
-    this.getArticleList();
+    this.getArticleList(1, true);
   },
   methods: {
-    async getArticleList() {
-      let res = await apiGetArticleList({
-        name: this.input,
-        beginDate: this.dateArr[0],
-        endDate: this.dateArr[1]
-      });
-      console.log(res);
+    async getArticleList(pageIndex, isFirst) {
+      try {
+        let res = await apiGetArticleList({
+          name: this.input,
+          beginDate: this.dateArr ? this.dateArr[0] : undefined,
+          endDate: this.dateArr ? this.dateArr[1] : undefined,
+          pageNum: pageIndex,
+          pageSize: this.pageSize
+        });
+        // console.log(res);
 
-      if (res.data.errorCode === 0) {
-        this.tableData = res.data.data;
+        if (res.data.errorCode === 0) {
+          isFirst || this.$message.success("查询成功！");
+          this.tableData = res.data.data.list;
+          this.total = res.data.data.count;
+        } else {
+          this.$message.error("查询失败！");
+        }
+      } catch (error) {
+        console.log(error);
+        this.$message.error("查询失败！");
       }
     },
-    pageChange() {},
-
-    search() {}
+    pageChange(pageIndex) {
+      this.getArticleList(pageIndex);
+    }
   }
 };
 </script>

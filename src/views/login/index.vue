@@ -27,8 +27,8 @@ export default {
   data() {
     return {
       ruleForm: {
-        account: process.env.VUE_APP_FLAG !== "production" ? "5000037" : "",
-        password: process.env.VUE_APP_FLAG !== "production" ? "123" : ""
+        account: process.env.VUE_APP_FLAG !== "production" ? "1" : "",
+        password: process.env.VUE_APP_FLAG !== "production" ? "1" : ""
       },
       rules: {
         account: [{ required: true, message: "请输入帐号", trigger: "blur" }],

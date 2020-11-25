@@ -1,4 +1,31 @@
-// 根据属性名获取url上的参数值
+/**
+ * @desc 根据URL获得参数对象
+ * @param {string} url
+ * @return {Object} 参数对象
+ */
+function param2Obj(url) {
+  const search = decodeURIComponent(url.split('?')[1]).replace(/\+/g, ' ')
+  if (!search) {
+    return {}
+  }
+  const obj = {}
+  const searchArr = search.split('&')
+  searchArr.forEach(v => {
+    const index = v.indexOf('=')
+    if (index !== -1) {
+      const name = v.substring(0, index)
+      const val = v.substring(index + 1, v.length)
+      obj[name] = val
+    }
+  })
+  return obj
+}
+
+/**
+ * @desc 根据属性名获取url上的参数值
+ * @param {string} queryName
+ * @return {String} 参数值/null
+ */
 const getQueryValue = (queryName) => {
   let reg = new RegExp('(^|&)' + queryName + '=([^&]*)(&|$)', 'i')
   let r = window.location.search.substr(1).match(reg);
@@ -8,7 +35,42 @@ const getQueryValue = (queryName) => {
   return null;
 }
 
-// 获取当月或者上月
+
+/**
+ * @desc 将数组进行分页
+ * @param {Array} arr 要分页的数组
+ * @param {Number} pageSize 每页条数
+ * @param {Number} pageNum 页码
+ * @return {Object} paginationArr：第一页数据；paginationCount：总条数；paginationTotalPage：总页数
+ */
+function handlePagination(arr, pageSize = 10, pageNum = 1) {
+  // 数组长度
+  let paginationArr = []
+  let arrLength = arr.length;
+  let index = 0;
+  for (let i = 0; i < arrLength; i++) {
+    // 可以被 10 整除
+    if (i % pageSize === 0 && i !== 0) {
+      paginationArr.push(arr.slice(index, i));
+      index = i;
+    };
+    if ((i + 1) === arrLength) {
+      paginationArr.push(arr.slice(index, (i + 1)));
+    }
+  };
+  return {
+    paginationArr: paginationArr[pageNum - 1],
+    paginationCount: arr.length,
+    paginationTotalPage: paginationArr.length
+  }
+}
+
+
+/**
+ * @desc 获取当月或者上月年月数据
+ * @param {string} type prev（上月）或者不传
+ * @return {String} YYYY-MM格式的日期
+ */
 const getMonthDate = (type) => {
   const date = new Date();
   // day为31时, 如果上一个月没有31号会出错, 所以直接设置为1号
@@ -28,13 +90,24 @@ const getMonthDate = (type) => {
   return `${year}-${month}`;
 }
 
-// 根据最后一个子节点获取所有父节点（包括子节点）
+
+/**
+ * @desc 根据最后一个子节点获取所有父节点id（包括子节点）
+ * @param {Array} tree 整个树结构
+ * @param {Function} func 例：data.id == scope.row.kpiId，返回子节点id和所有的父节点id
+ * @param {Array} path 保存各节点的值
+ * @return {Array} 满足条件的子节点属性和所有的父节点属性
+ */
 const treeFindPath = (tree, func, path = []) => {
-  if (!tree) return [];
+  if (!tree) {
+    return [];
+  }
   for (const data of tree) {
     // 根据实际需求可以返回不同内容
     path.push(data.id);
-    if (func(data)) return path;
+    if (func(data)) {
+      return path;
+    }
     if (data.children) {
       const findChildren = treeFindPath(data.children, func, path);
       if (findChildren.length) return findChildren;
@@ -45,7 +118,12 @@ const treeFindPath = (tree, func, path = []) => {
 }
 
 
-// 重写toFixed()方法，js的toFixed()有问题，用的是四舍六入五成双法
+/**
+ * @desc 重写toFixed()方法，js的toFixed()有问题，用的是四舍六入五成双法
+ * @param {Number} d 保留几位小数
+ * @return {Number} 保留d位小数的数字
+ * @example 调用示例：num.toFixed(2)
+ */
 const rewriteToFixed = () => {
   // d表示需要保留几位小数
   Number.prototype.toFixed = function (d) {
@@ -83,14 +161,30 @@ const rewriteToFixed = () => {
 }
 
 
-// js浮点数运算出现误差解决方案
-// 1.数据展示类
+
+/**
+ * @desc 1.数据展示类：js浮点数运算出现误差解决方案
+ * @param {Number} num 出现误差的数字
+ * @param {Number} precision 截取的长度（一般默认）
+ * @return {Number} 消除误差的数字
+ */
 const strip = (num, precision = 12) => {
   return +parseFloat(num.toPrecision(precision));
 }
 
 
-// 防抖：当持续触发时不执行，触发结束一段时间后再执行
+/**
+ * @desc 防抖：当持续触发时不执行，触发结束一段时间后再执行
+ * @param {Function} fn 要触发的事件
+ * @param {Number} waitTime 触发时间间隔（毫秒）
+ * @return {Function} 返回定时执行的函数
+ * @example 调用示例
+ *  methods: {
+ *    change: debounce(function() {
+ *      this.getVerifyCode();
+ *    }, 1000),
+ *  }
+ */
 const debounce = (fn, waitTime = 1000) => {
   let timer = null;
   return function () {
@@ -101,26 +195,42 @@ const debounce = (fn, waitTime = 1000) => {
   }
 }
 
-// 节流：当持续触发事件时，每隔固定的一段时间执行一次
+/**
+ * @desc 节流：当持续触发事件时，每隔固定的一段时间执行一次
+ * @param {Function} fn 要触发的事件
+ * @param {Number} waitTime 触发时间间隔（毫秒）
+ * @return {Function} 返回定时执行的函数
+ * @example 调用示例
+ *  methods: {
+ *    change: throttle(function() {
+ *      this.getVerifyCode();
+ *    }, 1000),
+ *  }
+ */
 const throttle = (fn, waitTime = 1000) => {
   let timer = null;
   let beginTime = Date.now();
-  return () => {
+  return function () {
     clearTimeout(timer)
     let spaceTime = Date.now() - beginTime
     if (spaceTime >= waitTime) {
-      fn()
+      fn.apply(this, arguments)
       beginTime = Date.now()
     } else {
       timer = setTimeout(() => {
-        fn()
+        fn.apply(this, arguments)
       }, waitTime)
     }
   }
 }
 
 
-// 根据总条数total获取隔pageSize的数组
+/**
+ * @desc 根据总条数total获取隔pageSize的数组
+ * @param {Number} total 总条数
+ * @param {Number} pageSize 每页条数
+ * @return {Array} 返回从pageSize开始，每隔pageSize的数组（数组最后一个元素为total）
+ */
 const getPageSizeArr = (total, pageSize) => {
   let arr = [];
   for (let i = pageSize; i < total; i += pageSize) {
@@ -131,7 +241,10 @@ const getPageSizeArr = (total, pageSize) => {
 }
 
 
-// 判断是否是IE，直接判断浏览器是否支持ActiveX控件，只有IE浏览器里面支持ActiveX控件
+/**
+ * @desc 判断是否是IE，直接判断浏览器是否支持ActiveX控件，只有IE浏览器里面支持ActiveX控件
+ * @return {Boolean} 返回true/false
+ */
 const isIE = () => {
   if (!!window.ActiveXObject || "ActiveXObject" in window) {
     return true;
@@ -140,7 +253,10 @@ const isIE = () => {
   }
 }
 
-// 获得当前浏览器
+/**
+ * @desc 获得当前浏览器
+ * @return {String} 返回当前浏览器名称
+ */
 const getBrowser = () => {
   let userAgent = navigator.userAgent;
 
@@ -170,10 +286,10 @@ const getBrowser = () => {
 
 
 /**
- * 根据选择器查找元素
- * @param selector <String> 选择器，可取 #id   .class   element
- * @param context <DOM> 查询上下文，即在该DOM元素后代查找满足选择器条件的元素，默认在 document 中查找
- * @return 返回查找到的元素（根据id查找时返回的是查找到的DOM对象，根据类名或元素名查找时，返回的是 HTMLCollection）
+ * @desc 根据选择器查找元素
+ * @param {String} selector 选择器，可取 #id   .class   element
+ * @param {DOM} context 查询上下文，即在该DOM元素后代查找满足选择器条件的元素，默认在 document 中查找
+ * @return {DOM} 返回查找到的元素（根据id查找时返回的是查找到的DOM对象，根据类名或元素名查找时，返回的是 HTMLCollection）
  */
 const _$ = (selector, context) => {
   // 如果未传递 context 参数，则默认取 document 值
@@ -221,8 +337,13 @@ const byClassName = (className, context) => {
 }
 
 export {
+  param2Obj,
   getQueryValue,
+
+  handlePagination,
+
   getMonthDate,
+
   treeFindPath,
 
   rewriteToFixed,
