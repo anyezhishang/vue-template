@@ -40,7 +40,7 @@
           background-color="#fff"
           style="width:100%"
         >
-          <el-menu-item :index="$router.options.routes[3].children[1].path">
+          <!-- <el-menu-item :index="$router.options.routes[3].children[1].path">
             <i class="el-icon-edit-outline"></i>
             <span slot="title">{{ $router.options.routes[3].children[1].meta.title }}</span>
           </el-menu-item>
@@ -58,6 +58,11 @@
           <el-menu-item :index="$router.options.routes[3].children[4].path">
             <i class="el-icon-folder-opened"></i>
             <span slot="title">{{ $router.options.routes[3].children[4].meta.title }}</span>
+          </el-menu-item>-->
+
+          <el-menu-item v-for="(item, index) in menuArr" :key="index" :index="item.path">
+            <i :class="menuIconArr[index]"></i>
+            <span slot="title">{{ item.meta.title }}</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -89,12 +94,27 @@ export default {
         password: ""
       },
 
+      menuIconArr: [
+        "el-icon-edit-outline",
+        "el-icon-document",
+        "el-icon-document-checked",
+        "el-icon-folder-opened"
+      ],
+
       defaultOpenedsArray: [],
       isCollapse: false,
 
       bgColorHeader,
       colorIconIsActive
     };
+  },
+  computed: {
+    // 去掉第一个重定向的页面
+    menuArr() {
+      return this.$router.options.routes[3].children.filter((item, index) => {
+        return index !== 0;
+      });
+    }
   },
   methods: {
     changeCollapse() {
