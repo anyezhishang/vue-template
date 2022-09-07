@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { apiUserLogin } from "../../api/user";
+import { apiUserLogin } from "@/api/user";
 
 export default {
   name: "Login",
@@ -57,7 +57,6 @@ export default {
         if (valid) {
           try {
             let res = await apiUserLogin(this.ruleForm);
-            console.log(res);
             if (res.data.errorCode === 0) {
               this.$store.commit("changeUserInfo", res.data.data.userInfo);
               window.sessionStorage.setItem("token", res.data.data.token);

@@ -10,7 +10,7 @@
       <div class="header_right">
         <el-dropdown trigger="click" placement="bottom" @command="handleCommand">
           <span class="el-dropdown-link">
-            欢迎您！ {{ $store.state.userInfo[0].name }}
+            欢迎您！ {{ $store.state.userInfo.name }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
 
@@ -40,26 +40,6 @@
           background-color="#fff"
           style="width:100%"
         >
-          <!-- <el-menu-item :index="$router.options.routes[3].children[1].path">
-            <i class="el-icon-edit-outline"></i>
-            <span slot="title">{{ $router.options.routes[3].children[1].meta.title }}</span>
-          </el-menu-item>
-
-          <el-menu-item :index="$router.options.routes[3].children[2].path">
-            <i class="el-icon-document"></i>
-            <span slot="title">{{ $router.options.routes[3].children[2].meta.title }}</span>
-          </el-menu-item>
-
-          <el-menu-item :index="$router.options.routes[3].children[3].path">
-            <i class="el-icon-document-checked"></i>
-            <span slot="title">{{ $router.options.routes[3].children[3].meta.title }}</span>
-          </el-menu-item>
-
-          <el-menu-item :index="$router.options.routes[3].children[4].path">
-            <i class="el-icon-folder-opened"></i>
-            <span slot="title">{{ $router.options.routes[3].children[4].meta.title }}</span>
-          </el-menu-item>-->
-
           <el-menu-item v-for="(item, index) in menuArr" :key="index" :index="item.path">
             <i :class="menuIconArr[index]"></i>
             <span slot="title">{{ item.meta.title }}</span>
@@ -79,26 +59,23 @@
 </template>
 
 <script>
-import {
-  bgColorHeader,
-  colorIconIsActive
-} from "../../assets/sass/variable.scss";
+import { bgColorHeader, colorIconIsActive } from '@/assets/sass/variable.scss'
 
 export default {
-  name: "Home",
+  name: 'Home',
   data() {
     return {
       form: {
         accounts: this.$store.state.userInfo.accounts,
-        oldPassword: "",
-        password: ""
+        oldPassword: '',
+        password: ''
       },
 
       menuIconArr: [
-        "el-icon-edit-outline",
-        "el-icon-document",
-        "el-icon-document-checked",
-        "el-icon-folder-opened"
+        'el-icon-edit-outline',
+        'el-icon-document',
+        'el-icon-document-checked',
+        'el-icon-folder-opened'
       ],
 
       defaultOpenedsArray: [],
@@ -106,35 +83,33 @@ export default {
 
       bgColorHeader,
       colorIconIsActive
-    };
+    }
   },
   computed: {
     // 去掉第一个重定向的页面
     menuArr() {
-      return this.$router.options.routes[3].children.filter((item, index) => {
-        return index !== 0;
-      });
+      return this.$router.options.routes.find(item => item.name === 'Home')
+        .children
     }
   },
   methods: {
     changeCollapse() {
-      this.isCollapse = !this.isCollapse;
+      this.isCollapse = !this.isCollapse
       // 控制收起所有子菜单
-      this.defaultOpenedsArray = [];
+      this.defaultOpenedsArray = []
     },
 
     // 顶部下拉菜单下拉项的点击事件
     handleCommand(cmd) {
-      // console.log(cmd);
-      if (cmd == "logout") {
+      if (cmd == 'logout') {
         // 删除登录后的信息
-        window.sessionStorage.removeItem("userInfo");
-        window.sessionStorage.removeItem("token");
-        this.$router.push("/login");
+        window.sessionStorage.removeItem('userInfo')
+        window.sessionStorage.removeItem('token')
+        this.$router.push('/login')
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -250,7 +225,7 @@ export default {
       padding-left: 8px !important;
       padding-right: 10px !important;
     }
-    .el-menu.asidePadding .el-menu-item [class^="el-icon-"] {
+    .el-menu.asidePadding .el-menu-item [class^='el-icon-'] {
       margin-right: 8px;
     }
 
@@ -259,7 +234,7 @@ export default {
       padding-left: 8px !important;
       padding-right: 10px !important;
     }
-    ::v-deep .el-menu.asidePadding .el-submenu [class^="el-icon-"] {
+    ::v-deep .el-menu.asidePadding .el-submenu [class^='el-icon-'] {
       margin-right: 8px;
     }
     ::v-deep .el-menu.asidePadding .el-submenu .el-submenu__icon-arrow {

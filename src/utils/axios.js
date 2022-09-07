@@ -1,7 +1,7 @@
 // 导入Vue
 import Vue from 'vue'
 // 导入路由对象
-import router from '../router/'
+import router from '@/router/'
 
 // 导入全局axios
 import axios from 'axios'
@@ -20,6 +20,10 @@ axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8'
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/test' : ''
 Vue.prototype.$axios = axios
 
+// 再次创建一个 axios 实例，用于单点登录
+// const axios2 = axios.create();
+// Vue.prototype.$axios2 = axios2;
+
 // 添加请求拦截器
 axios.interceptors.request.use(async function (config) {
     // NProgress.start()
@@ -37,7 +41,6 @@ axios.interceptors.request.use(async function (config) {
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
   // NProgress.done()
-  // console.log('响应成功', response)
   // 登录超时或者token有问题
   if (response.data.errorCode == 1102) {
     // 限制多个并发请求重复弹出消息和跳转路由

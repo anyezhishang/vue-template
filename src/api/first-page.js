@@ -1,37 +1,13 @@
 import axios from 'axios'
-import Url from '../utils/url';
 
-// 封装请求方法1
-const apiPost = ({
-  param1,
-  param2
-}) => {
-  return axios.post(Url.Post, {
-    param1,
-    param2
-  })
+// 封装Post请求方法
+export function apiPost(params) {
+  return axios.post('/post', params)
 }
 
-// 封装请求方法2
-const apiGetArticleList = ({
-  name,
-  beginDate,
-  endDate,
-  pageNum,
-  pageSize
-}) => {
+// 封装Get请求方法
+export function apiGetArticleList(params) {
   return axios.get('/article/list', {
-    params: {
-      name,
-      beginDate,
-      endDate,
-      pageNum,
-      pageSize
-    }
+    params
   })
-}
-
-export {
-  apiGetArticleList,
-  apiPost,
 }

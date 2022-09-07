@@ -1,89 +1,86 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Login from '../views/login/'
-import Home from '../views/home/'
-import NotFound from '../views/not-found/'
+import Login from '@/views/login/'
+import Home from '@/views/home/'
+import NotFound from '@/views/not-found/'
 
-import FirstPage from '../views/home/first-page/'
-import SecondPage from '../views/home/second-page/'
-import ThirdPage from '../views/home/third-page/'
-import FourthPage from '../views/home/fourth-page/'
+import FirstPage from '@/views/home/first-page/'
+import SecondPage from '@/views/home/second-page/'
+import ThirdPage from '@/views/home/third-page/'
+import FourthPage from '@/views/home/fourth-page/'
 
-// import store from '../store/'
+// import store from '@/store/'
 // import {
 //   getQueryValue
-// } from '../utils/common'
-// import Url from '../utils/url.js'
+// } from '@/utils/common'
 
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '',
-    redirect: '/login'
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-    meta: {
-      title: "登录"
-    }
-  },
-  {
-    name: 'OtherLogin',
-    path: "/otherlogin",
-    component: Login,
-    meta: {
-      title: "登录"
-    }
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home,
-    children: [{
-        path: '/home',
-        redirect: '/firstpage'
-      },
-      {
-        path: '/firstpage',
-        name: 'FirstPage',
-        component: FirstPage,
-        meta: {
-          title: "第一个页面"
-        }
-      },
-      {
-        path: '/secondpage',
-        name: 'SecondPage',
-        component: SecondPage,
-        meta: {
-          title: "第二个页面"
-        }
-      },
-      {
-        path: '/thirdpage',
-        name: 'ThirdPage',
-        component: ThirdPage,
-        meta: {
-          title: "第三个页面"
-        }
-      },
-      {
-        path: '/fourthpage',
-        name: 'FourthPage',
-        component: FourthPage,
-        meta: {
-          title: "第四个页面"
-        }
-      },
-    ]
-  },
-  {
-    path: '*',
-    component: NotFound
+  path: '',
+  redirect: '/login'
+},
+{
+  name: 'Login',
+  path: '/login',
+  component: Login,
+  meta: {
+    title: "登录"
   }
+},
+{
+  name: 'OtherLogin',
+  path: "/otherlogin",
+  component: Login,
+  meta: {
+    title: "登录"
+  }
+},
+{
+  name: 'Home',
+  path: '/home',
+  redirect: '/firstpage',
+  component: Home,
+  children: [
+    {
+      name: 'FirstPage',
+      path: '/firstpage',
+      component: FirstPage,
+      meta: {
+        title: "第一个页面"
+      }
+    },
+    {
+      name: 'SecondPage',
+      path: '/secondpage',
+      component: SecondPage,
+      meta: {
+        title: "第二个页面"
+      }
+    },
+    {
+      name: 'ThirdPage',
+      path: '/thirdpage',
+      component: ThirdPage,
+      meta: {
+        title: "第三个页面"
+      }
+    },
+    {
+      name: 'FourthPage',
+      path: '/fourthpage',
+      component: FourthPage,
+      meta: {
+        title: "第四个页面"
+      }
+    },
+  ]
+},
+{
+  path: '*',
+  component: NotFound
+}
 ]
 
 
@@ -101,7 +98,7 @@ router.beforeEach(async (to, from, next) => {
     //   let token = getQueryValue('token')
     //   if (token) {
     //     let res = await Vue.prototype.$axios2({
-    //       url: Url.GetTokenUser,
+    //       url: '/api-financialperformance/senvUser/getbytoken',
     //       method: 'GET',
     //       headers: {
     //         Authorization: token
@@ -110,8 +107,7 @@ router.beforeEach(async (to, from, next) => {
     //         token
     //       }
     //     })
-    //     // console.log(res);
-    //     if (res.data.errorCode === 0 && res.data.data != null) {
+    //     if (res.data.errorCode === 0 && res.data.data.length > 0) {
     //       store.commit("changeUserInfo", res.data.data);
     //       window.sessionStorage.setItem("fpmtoken", token)
     //     }

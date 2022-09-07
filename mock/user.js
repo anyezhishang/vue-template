@@ -21,15 +21,9 @@ export default {
     let account = paramsObj.account
     let password = paramsObj.password
 
-    let userData = JSON.parse(JSON.stringify(userObj))
+    let userData = userObj.userInfo.find(item => item.account == account && item.password == password)
 
-    userData = userData.userInfo.filter(item => {
-      if (item.account == account && item.password == password) {
-        return item
-      }
-    })
-
-    if (userData != '') {
+    if (userData) {
       return {
         errorCode: 0,
         errorMessage: '登录成功',
@@ -45,7 +39,8 @@ export default {
         errorMessage: '帐号或者密码错误',
         result: false,
         data: {
-          userInfo: userData
+          userInfo: null,
+          token: null
         }
       }
     }

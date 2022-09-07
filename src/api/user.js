@@ -1,12 +1,6 @@
 import axios from 'axios'
-import Url from '../utils/url';
 
-// 财务绩效系统登录接口
-const apiUserLogin = (ruleForm) => {
-  return axios.post('/login/user', ruleForm)
-}
-
-
-export {
-  apiUserLogin
+// 登录接口
+export function apiUserLogin(params) {
+  return axios.post('/login/user', params)
 }

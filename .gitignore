@@ -3,7 +3,11 @@
 /test
 /dist
 
+# ignore this file
 package-lock.json
+*.zip
+*.rar
+*.7z
 
 # local env files
 .env.local
@@ -23,4 +27,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-*.zip

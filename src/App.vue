@@ -38,6 +38,8 @@
 <style lang="scss">
 @import url("./assets/fonts/iconfont.css");
 
+html,
+body,
 #app {
   height: 100%;
 }
